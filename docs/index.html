@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>リゾートワーク労働条件レポート</title>
+<meta name="description" content="リゾート地の短期・住み込みの仕事（リゾートバイト）の時給と寮・食事などの条件を、地域・職種ごとに集計した月次レポート。集計データはCC BY 4.0で自由に使えます。">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#14213d;--sub:#4a5568;--line:#d9dee7;--bg:#ffffff;--soft:#f4f6f9;--navy:#0b2545;--accent:#13315c}
+@media (prefers-color-scheme:dark){:root{--ink:#e8edf5;--sub:#a9b4c4;--line:#2c3646;--bg:#0f1520;--soft:#162030;--navy:#9db7e0;--accent:#c7d6ee}}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.85 "Noto Sans JP",-apple-system,BlinkMacSystemFont,"Hiragino Sans",sans-serif}
+a{color:var(--accent)}header{border-bottom:3px solid var(--navy)}
+.wrap{max-width:960px;margin:0 auto;padding:0 16px}
+.top{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;padding:14px 0}
+.brand{font-weight:700;color:var(--navy);text-decoration:none;font-size:17px;letter-spacing:.02em}
+nav a{margin-left:18px;font-size:14px;text-decoration:none;color:var(--ink)}nav a:first-child{margin-left:0}
+.hero{background:var(--soft);border-bottom:1px solid var(--line);padding:40px 0 32px}
+.hero h1{font-size:26px;line-height:1.5;margin:0 0 10px;color:var(--navy)}
+.hero p{margin:0;color:var(--sub);max-width:720px}
+h2{font-size:20px;color:var(--navy);border-left:5px solid var(--navy);padding-left:10px;margin:40px 0 14px}
+h3{font-size:16px;margin:24px 0 8px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.card{border:1px solid var(--line);border-top:3px solid var(--navy);padding:14px;background:var(--bg)}
+.card .k{font-size:13px;color:var(--sub)}.card .v{font-size:26px;font-weight:700;color:var(--navy)}
+.report{display:block;border:1px solid var(--line);padding:16px;text-decoration:none;color:var(--ink);margin:0 0 10px}
+.report .d{font-size:13px;color:var(--sub)}.report .t{font-weight:700;font-size:17px;color:var(--navy)}
+table{border-collapse:collapse;width:100%;font-size:14px}th,td{border-bottom:1px solid var(--line);padding:8px 6px;text-align:left;vertical-align:top}
+th{background:var(--soft);font-weight:600}td.n{text-align:right;font-variant-numeric:tabular-nums}
+.scroll{overflow-x:auto}.sm{font-size:13px;color:var(--sub)}
+.dl a{display:inline-block;border:1px solid var(--navy);padding:6px 12px;margin:0 8px 8px 0;text-decoration:none;font-size:14px}
+footer{border-top:1px solid var(--line);margin-top:48px;padding:20px 0 40px;font-size:13px;color:var(--sub)}
+</style></head><body>
+<header><div class="wrap top"><a class="brand" href="index.html">リゾートワーク労働条件レポート</a>
+<nav><a href="index.html#reports">レポート</a><a href="index.html#data">データ</a><a href="methods.html">調べ方</a></nav></div></header>
+<section class="hero"><div class="wrap">
+<h1>リゾートで働く人と、受け入れる施設のための<br>労働条件の基礎データ</h1>
+<p>リゾート地の短期・住み込みの仕事について、時給や寮・食事の条件を地域・職種ごとに集計し、毎月公開しています。働く人が条件を比べるとき、施設や派遣会社が求人の条件を考えるとき、自治体が観光地の人手を考えるときの材料として、無料で使えるようにすることが目的です。</p>
+</div></section>
+<main class="wrap">
+<h2 id="reports">レポート</h2><a class="report" href="reports/2026-10.html"><div class="d">月次レポート</div><div class="t">リゾートバイトの時給と条件：2026年10月</div></a>
+<h2 id="data">データ</h2>
+<p>集計した表はCSVで自由にダウンロードできます（CC BY 4.0）。個別の求人・会社名・施設名は含みません。</p>
+<div class="dl"><a href="data/2026-10_region_job.csv">地方×職種</a><a href="data/2026-10_prefecture_job.csv">都道府県×職種</a><a href="data/2026-10_region_startmonth.csv">地方×開始月</a><a href="data/2026-10_summary.json">分析結果（JSON）</a></div>
+<h2>このレポートについて</h2>
+<p>元のデータは、派遣会社各社が公開している求人ページです。利用の条件を確認できた5社の、掲載中で時給が書かれている求人だけを使っています。集計の手順とコードはすべて公開しているので、同じ計算を誰でも確かめられます。</p>
+<p><a href="methods.html">調べ方と、公開の条件</a>　<a href="https://github.com/fumi3333/resort-work-research">集計のコード（GitHub）</a></p>
+<p>派遣会社・施設・自治体の方からの、分析の見方や使い道についてのご意見を歓迎します。</p>
+</main>
+<footer><div class="wrap">
+<p>作成：松田晴史（武蔵野大学 経済学部）　連絡先：zax-official@fumiproject.dev</p>
+<p>集計データ・レポートは <a href="https://creativecommons.org/licenses/by/4.0/deed.ja">CC BY 4.0</a> で公開しています。使うときは「出典：リゾートワーク労働条件レポート（松田晴史（武蔵野大学 経済学部））」とこのサイトへのリンクを書いてください。集計のコードは <a href="https://github.com/fumi3333/resort-work-research">GitHub</a> で公開しています（MITライセンス）。</p>
+<p>元の求人は、各派遣会社が公開している求人ページです。個別の求人・会社名・施設名は掲載していません。</p>
+</div></footer></body></html>

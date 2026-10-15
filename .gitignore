@@ -1,0 +1,8 @@
+# 元の求人データ・鍵は絶対に入れない（このリポジトリは公開）
+*.env
+.env*
+raw/
+private/
+jobs_all.json
+*.jsonl
+__pycache__/
