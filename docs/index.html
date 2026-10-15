@@ -2,48 +2,68 @@
 <html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>リゾートワーク労働条件レポート</title>
 <meta name="description" content="リゾート地の短期・住み込みの仕事（リゾートバイト）の時給と寮・食事などの条件を、地域・職種ごとに集計した月次レポート。集計データはCC BY 4.0で自由に使えます。">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-:root{--ink:#14213d;--sub:#4a5568;--line:#d9dee7;--bg:#ffffff;--soft:#f4f6f9;--navy:#0b2545;--accent:#13315c}
-@media (prefers-color-scheme:dark){:root{--ink:#e8edf5;--sub:#a9b4c4;--line:#2c3646;--bg:#0f1520;--soft:#162030;--navy:#9db7e0;--accent:#c7d6ee}}
+:root{--ink:#1a1d23;--sub:#5b6472;--line:#dfe3e8;--bg:#ffffff;--panel:#eef2f3;--navy:#1c2e5e;--navy2:#2e4a8c;--bar:#9fb0d0}
+@media (prefers-color-scheme:dark){:root{--ink:#e9edf3;--sub:#a3adbb;--line:#2b3442;--bg:#0f141c;--panel:#171e29;--navy:#a9bde6;--navy2:#c9d6f0;--bar:#4a5f8f}}
 *{box-sizing:border-box}html{-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.85 "Noto Sans JP",-apple-system,BlinkMacSystemFont,"Hiragino Sans",sans-serif}
-a{color:var(--accent)}header{border-bottom:3px solid var(--navy)}
-.wrap{max-width:960px;margin:0 auto;padding:0 16px}
-.top{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;padding:14px 0}
-.brand{font-weight:700;color:var(--navy);text-decoration:none;font-size:17px;letter-spacing:.02em}
-nav a{margin-left:18px;font-size:14px;text-decoration:none;color:var(--ink)}nav a:first-child{margin-left:0}
-.hero{background:var(--soft);border-bottom:1px solid var(--line);padding:40px 0 32px}
-.hero h1{font-size:26px;line-height:1.5;margin:0 0 10px;color:var(--navy)}
-.hero p{margin:0;color:var(--sub);max-width:720px}
-h2{font-size:20px;color:var(--navy);border-left:5px solid var(--navy);padding-left:10px;margin:40px 0 14px}
-h3{font-size:16px;margin:24px 0 8px}
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
-.card{border:1px solid var(--line);border-top:3px solid var(--navy);padding:14px;background:var(--bg)}
-.card .k{font-size:13px;color:var(--sub)}.card .v{font-size:26px;font-weight:700;color:var(--navy)}
-.report{display:block;border:1px solid var(--line);padding:16px;text-decoration:none;color:var(--ink);margin:0 0 10px}
-.report .d{font-size:13px;color:var(--sub)}.report .t{font-weight:700;font-size:17px;color:var(--navy)}
-table{border-collapse:collapse;width:100%;font-size:14px}th,td{border-bottom:1px solid var(--line);padding:8px 6px;text-align:left;vertical-align:top}
-th{background:var(--soft);font-weight:600}td.n{text-align:right;font-variant-numeric:tabular-nums}
-.scroll{overflow-x:auto}.sm{font-size:13px;color:var(--sub)}
-.dl a{display:inline-block;border:1px solid var(--navy);padding:6px 12px;margin:0 8px 8px 0;text-decoration:none;font-size:14px}
-footer{border-top:1px solid var(--line);margin-top:48px;padding:20px 0 40px;font-size:13px;color:var(--sub)}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 15px/1.95 "Noto Sans JP",system-ui,sans-serif;letter-spacing:.04em;font-feature-settings:"palt"}
+.num,.v,td.n{font-family:"Inter","Noto Sans JP",sans-serif;font-variant-numeric:tabular-nums;letter-spacing:0}
+a{color:var(--navy2);text-underline-offset:3px}
+.wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+header{border-bottom:1px solid var(--line);background:var(--bg)}
+.top{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px 24px;padding:18px 0}
+.brand{text-decoration:none;color:var(--ink)}.brand b{display:block;font-size:17px;font-weight:700;letter-spacing:.08em}.brand span{font-size:11px;color:var(--sub);letter-spacing:.12em}
+nav a{margin-right:22px;font-size:13px;font-weight:500;text-decoration:none;color:var(--ink)}nav a:last-child{margin-right:0}
+.hero{background:var(--panel);padding:56px 0 48px}
+.eyebrow{font-size:12px;font-weight:500;color:var(--navy2);letter-spacing:.16em;margin:0 0 12px}
+.hero h1{font-size:clamp(24px,4vw,36px);line-height:1.5;font-weight:700;margin:0 0 16px;color:var(--ink);letter-spacing:.06em}
+.hero p{margin:0;color:var(--sub);max-width:760px}
+main section{padding:8px 0}
+h2{font-size:22px;font-weight:700;margin:56px 0 20px;letter-spacing:.06em}
+h2::before{content:"";display:block;width:32px;height:3px;background:var(--navy);margin-bottom:14px}
+.lead{color:var(--sub);max-width:780px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));border-top:1px solid var(--line);border-left:1px solid var(--line)}
+.kpi{padding:22px 20px;border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
+.kpi .k{font-size:12px;color:var(--sub);letter-spacing:.08em}.kpi .v{font-size:34px;font-weight:600;color:var(--navy);line-height:1.3}.kpi .v small{font-size:15px;margin-left:2px}
+.reports{border-top:1px solid var(--line)}
+.report{display:grid;grid-template-columns:120px 1fr;gap:4px 20px;padding:22px 4px;border-bottom:1px solid var(--line);text-decoration:none;color:var(--ink)}
+.report:hover .t{text-decoration:underline}
+.report .d{font-family:Inter,sans-serif;font-size:13px;color:var(--sub)}.report .tag{display:inline-block;font-size:11px;border:1px solid var(--navy2);color:var(--navy2);padding:0 8px;margin-bottom:6px}
+.report .t{font-size:17px;font-weight:700}
+@media (max-width:560px){.report{grid-template-columns:1fr}}
+.panel{background:var(--panel);padding:24px}
+table{border-collapse:collapse;width:100%;font-size:13.5px}th,td{border-bottom:1px solid var(--line);padding:10px 8px;text-align:left;vertical-align:middle}
+th{font-weight:500;color:var(--sub);font-size:12px;letter-spacing:.06em;border-bottom:2px solid var(--ink)}td.n{text-align:right}
+.scroll{overflow-x:auto}.sm{font-size:12.5px;color:var(--sub)}
+.dl{display:flex;flex-wrap:wrap;gap:10px}.dl a{border:1px solid var(--ink);padding:9px 16px;text-decoration:none;color:var(--ink);font-size:13px;font-weight:500}
+.dl a::after{content:" ↓"}
+.chart text{font:12px "Noto Sans JP",sans-serif;fill:var(--sub)}.chart .val{font-family:Inter,sans-serif;fill:var(--ink);font-weight:600}
+.chart .bar{fill:var(--bar)}.chart .mid{stroke:var(--navy);stroke-width:2}.chart .axis{stroke:var(--line)}.chart .ci{stroke:var(--navy);stroke-width:2}.chart .dot{fill:var(--navy)}
+.tool{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;align-items:end}
+.tool label{display:flex;flex-direction:column;gap:6px;font-size:12px;color:var(--sub);letter-spacing:.06em}
+.tool select,.tool input{font:500 15px "Noto Sans JP",sans-serif;padding:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink)}
+.result{margin-top:20px;font-size:15px}.result .big{font-family:Inter,sans-serif;font-size:28px;font-weight:600;color:var(--navy)}
+.cta{border:1px solid var(--line);padding:24px;display:flex;flex-wrap:wrap;gap:12px 24px;align-items:center;justify-content:space-between}
+.cta a{background:var(--navy);color:#fff;padding:10px 18px;text-decoration:none;font-size:13px;font-weight:500}
+@media (prefers-color-scheme:dark){.cta a{color:#0f141c}}
+footer{border-top:1px solid var(--line);margin-top:72px;padding:28px 0 48px;font-size:12px;color:var(--sub)}
 </style></head><body>
-<header><div class="wrap top"><a class="brand" href="index.html">リゾートワーク労働条件レポート</a>
+<header><div class="wrap top"><a class="brand" href="index.html"><b>リゾートワーク労働条件レポート</b><span>RESORT WORK LABOR CONDITIONS REPORT</span></a>
 <nav><a href="index.html#reports">レポート</a><a href="index.html#data">データ</a><a href="methods.html">調べ方</a></nav></div></header>
-<section class="hero"><div class="wrap">
+<section class="hero"><div class="wrap"><p class="eyebrow">RESORT WORK LABOR CONDITIONS REPORT</p>
 <h1>リゾートで働く人と、受け入れる施設のための<br>労働条件の基礎データ</h1>
-<p>リゾート地の短期・住み込みの仕事について、時給や寮・食事の条件を地域・職種ごとに集計し、毎月公開しています。働く人が条件を比べるとき、施設や派遣会社が求人の条件を考えるとき、自治体が観光地の人手を考えるときの材料として、無料で使えるようにすることが目的です。</p>
-</div></section>
+<p>リゾート地の短期・住み込みの仕事について、時給や寮・食事の条件を地域・職種ごとに集計し、毎月公開しています。働く人が条件を比べるとき、施設や派遣会社が求人の条件を考えるとき、自治体が観光地の人手を考えるときの材料として、無料で使えるようにすることが目的です。</p></div></section>
 <main class="wrap">
-<h2 id="reports">レポート</h2><a class="report" href="reports/2026-10.html"><div class="d">月次レポート</div><div class="t">リゾートバイトの時給と条件：2026年10月</div></a>
-<h2 id="data">データ</h2>
-<p>集計した表はCSVで自由にダウンロードできます（CC BY 4.0）。個別の求人・会社名・施設名は含みません。</p>
-<div class="dl"><a href="data/2026-10_region_job.csv">地方×職種</a><a href="data/2026-10_prefecture_job.csv">都道府県×職種</a><a href="data/2026-10_region_startmonth.csv">地方×開始月</a><a href="data/2026-10_summary.json">分析結果（JSON）</a></div>
-<h2>このレポートについて</h2>
-<p>元のデータは、派遣会社各社が公開している求人ページです。利用の条件を確認できた5社の、掲載中で時給が書かれている求人だけを使っています。集計の手順とコードはすべて公開しているので、同じ計算を誰でも確かめられます。</p>
-<p><a href="methods.html">調べ方と、公開の条件</a>　<a href="https://github.com/fumi3333/resort-work-research">集計のコード（GitHub）</a></p>
-<p>派遣会社・施設・自治体の方からの、分析の見方や使い道についてのご意見を歓迎します。</p>
+<section><h2 id="reports">レポート</h2><div class="reports"><a class="report" href="reports/2026-10.html"><div class="d">2026.10</div><div><span class="tag">月次レポート</span><div class="t">リゾートバイトの時給と条件　2026年10月</div></div></a></div></section>
+<section><h2>最新の水準（2026年10月）</h2><div class="kpis"><div class="kpi"><div class="k">対象の求人</div><div class="v">12,861<small>件</small></div></div><div class="kpi"><div class="k">時給の中央値</div><div class="v">1,250<small>円</small></div></div><div class="kpi"><div class="k">寮が完全個室の求人</div><div class="v">66<small>%</small></div></div></div></section>
+<section><h2 id="data">データ</h2>
+<p class="lead">集計した表はCSVで自由にダウンロードできます（CC BY 4.0）。個別の求人・会社名・施設名は含みません。</p>
+<div class="dl"><a href="data/2026-10_region_job.csv">地方×職種</a><a href="data/2026-10_prefecture_job.csv">都道府県×職種</a><a href="data/2026-10_region_startmonth.csv">地方×開始月</a><a href="data/2026-10_summary.json">分析結果 JSON</a></div></section>
+<section><h2>このレポートについて</h2>
+<p class="lead">元のデータは、派遣会社各社が公開している求人ページです。利用の条件を確認できた5社の、掲載中で時給が書かれている求人だけを使っています。集計の手順とコードは公開しており、同じ計算を誰でも確かめられます。</p>
+<p><a href="methods.html">調べ方と、公開の条件</a>　／　<a href="https://github.com/fumi3333/resort-work-research">集計のコード（GitHub）</a></p></section>
+<section><div class="cta"><div><b>地域・職種を絞った集計のご相談</b><div class="sm">特定の温泉地・スキー場周辺など、公開版より細かい集計や、自社の求人条件との比較をご希望の方はご連絡ください。</div></div><a href="mailto:zax-official@fumiproject.dev?subject=%E9%9B%86%E8%A8%88%E3%81%AE%E3%81%94%E7%9B%B8%E8%AB%87">問い合わせる</a></div></section>
 </main>
 <footer><div class="wrap">
 <p>作成：松田晴史（武蔵野大学 経済学部）　連絡先：zax-official@fumiproject.dev</p>
