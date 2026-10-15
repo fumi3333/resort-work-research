@@ -2,7 +2,7 @@
 
 リゾート地の短期・住み込みの仕事（リゾートバイト）について、時給や寮・食事の条件を地域・職種ごとに集計し、毎月公開しています。
 
-- サイト：https://fumi3333.github.io/resort-work-research/
+- サイト：https://fumiproject.dev/resort/research/
 - 作成：松田晴史（武蔵野大学 経済学部）
 
 ## 中身
