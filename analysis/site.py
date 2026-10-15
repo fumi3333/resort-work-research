@@ -35,7 +35,7 @@ h2::before{content:"";display:block;width:32px;height:3px;background:var(--navy)
 .lead{color:var(--sub);max-width:780px}
 .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));border-top:1px solid var(--line);border-left:1px solid var(--line)}
 .kpi{padding:22px 20px;border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
-.kpi .k{font-size:12px;color:var(--sub);letter-spacing:.08em}.kpi .v{font-size:34px;font-weight:600;color:var(--navy);line-height:1.3}.kpi .v small{font-size:15px;margin-left:2px}
+.kpi .k{font-size:12px;color:var(--sub);letter-spacing:.08em}.kpi .v{font-size:34px;font-weight:600;color:var(--navy);line-height:1.3}.kpi .v small{font-size:15px;margin-left:2px}.kpi .v.r{font-size:26px;white-space:nowrap}
 .reports{border-top:1px solid var(--line)}
 .report{display:grid;grid-template-columns:120px 1fr;gap:4px 20px;padding:22px 4px;border-bottom:1px solid var(--line);text-decoration:none;color:var(--ink)}
 .report:hover .t{text-decoration:underline}
@@ -48,7 +48,7 @@ th{font-weight:500;color:var(--sub);font-size:12px;letter-spacing:.06em;border-b
 .scroll{overflow-x:auto}.sm{font-size:12.5px;color:var(--sub)}
 .dl{display:flex;flex-wrap:wrap;gap:10px}.dl a{border:1px solid var(--ink);padding:9px 16px;text-decoration:none;color:var(--ink);font-size:13px;font-weight:500}
 .dl a::after{content:" ↓"}
-.chart text{font:12px "Noto Sans JP",sans-serif;fill:var(--sub)}.chart .val{font-family:Inter,sans-serif;fill:var(--ink);font-weight:600}
+svg.chart{max-width:780px;display:block}.chart text{font:12px "Noto Sans JP",sans-serif;fill:var(--sub)}.chart .val{font-family:Inter,sans-serif;fill:var(--ink);font-weight:600}
 .chart .bar{fill:var(--bar)}.chart .mid{stroke:var(--navy);stroke-width:2}.chart .axis{stroke:var(--line)}.chart .ci{stroke:var(--navy);stroke-width:2}.chart .dot{fill:var(--navy)}
 .tool{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;align-items:end}
 .tool label{display:flex;flex-direction:column;gap:6px;font-size:12px;color:var(--sub);letter-spacing:.06em}
@@ -140,7 +140,8 @@ def coef(rows: list[dict]) -> str:
 TOOL_JS = """
 const R=document.getElementById('tr'),J=document.getElementById('tj'),W=document.getElementById('tw'),O=document.getElementById('tres');
 [...new Set(T.map(t=>t.r))].forEach(v=>R.add(new Option(v,v)));
-function fillJ(){const cur=J.value;J.innerHTML='';T.filter(t=>t.r===R.value).forEach(t=>J.add(new Option(t.j,t.j)));if([...J.options].some(o=>o.value===cur))J.value=cur;show();}
+const big=T.slice().sort((a,b)=>b.n-a.n)[0];R.value=big.r;
+function fillJ(){const cur=J.value;J.innerHTML='';T.filter(t=>t.r===R.value).forEach(t=>J.add(new Option(t.j,t.j)));if([...J.options].some(o=>o.value===cur))J.value=cur;else{const b=T.filter(t=>t.r===R.value&&t.j!=='その他').sort((a,b)=>b.n-a.n)[0];if(b)J.value=b.j;}show();}
 function show(){const t=T.find(t=>t.r===R.value&&t.j===J.value);if(!t){O.textContent='';return;}
 const w=+W.value;let pos='';if(w){pos=w<t.q1?'下位25%より低い水準です':w<t.md?'中央値より低く、下位25%以上の水準です':w<t.q3?'中央値以上、上位25%未満の水準です':'上位25%以上の高い水準です';}
 O.innerHTML='<div class="sm">'+t.r+'・'+t.j+'（約'+t.n+'件）</div><div><span class="big">'+t.md.toLocaleString()+'円</span>　中央値</div><div class="sm">真ん中の半分：'+t.q1.toLocaleString()+'〜'+t.q3.toLocaleString()+'円</div>'+(pos?'<p>入力した時給 '+w.toLocaleString()+'円は、'+pos+'</p>':'');}
@@ -152,8 +153,8 @@ CTA = ('<section><div class="cta"><div><b>地域・職種を絞った集計の�
        '<a href="mailto:zax-official@fumiproject.dev?subject=%E9%9B%86%E8%A8%88%E3%81%AE%E3%81%94%E7%9B%B8%E8%AB%87">問い合わせる</a></div></section>')
 
 
-def kpi(k: str, v: str, unit: str) -> str:
-    return f'<div class="kpi"><div class="k">{k}</div><div class="v">{v}<small>{unit}</small></div></div>'
+def kpi(k: str, v: str, unit: str, cls: str = "") -> str:
+    return f'<div class="kpi"><div class="k">{k}</div><div class="v {cls}">{v}<small>{unit}</small></div></div>'
 
 
 def main(ed: str) -> None:
@@ -177,7 +178,7 @@ def main(ed: str) -> None:
             '<label>地方<select id="tr"></select></label><label>職種<select id="tj"></select></label>'
             '<label>時給（円）<input id="tw" type="number" inputmode="numeric" min="900" max="3000" step="10" placeholder="例 1300"></label></div>'
             f'<div class="result" id="tres"></div></div></section><script>const T={tool_data};{TOOL_JS}</script>')
-    k4 = (kpi("時給の中央値", f"{s['時給の中央値']:,}", "円") + kpi("真ん中の半分の範囲", f"{s['時給_下位25%']:,}–{s['時給_上位25%']:,}", "円")
+    k4 = (kpi("時給の中央値", f"{s['時給の中央値']:,}", "円") + kpi("真ん中の半分の範囲", f"{s['時給_下位25%']:,}–{s['時給_上位25%']:,}", "円", "r")
           + kpi("寮が完全個室の求人", str(round(s["寮が個室の割合"] * 100)), "%") + kpi("1日3食つきの求人", str(round(s["1日3食の割合"] * 100)), "%"))
 
     rep = f"""<section class="hero"><div class="wrap"><p class="eyebrow">MONTHLY REPORT　{label}版</p>
