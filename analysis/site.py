@@ -148,8 +148,8 @@ O.innerHTML='<div class="sm">'+t.r+'・'+t.j+'（約'+t.n+'件）</div><div><spa
 R.onchange=fillJ;J.onchange=show;W.oninput=show;fillJ();
 """
 
-CTA = ('<section><div class="cta"><div><b>地域・職種を絞った集計のご相談</b><div class="sm">特定の温泉地・スキー場周辺など、公開版より細かい集計や、'
-       '自社の求人条件との比較をご希望の方はご連絡ください。</div></div>'
+CTA = ('<section><div class="cta"><div><b>特定地域・職種の詳細データ・個別分析のご相談</b><div class="sm">特定の温泉地・スキー場周辺のピンポイント相場や、'
+       '貴社・貴施設の募集条件との詳細比較など、個別のデータ集計・レポート作成はお気軽にご相談ください。</div></div>'
        '<a href="mailto:zax-official@fumiproject.dev?subject=%E9%9B%86%E8%A8%88%E3%81%AE%E3%81%94%E7%9B%B8%E8%AB%87">問い合わせる</a></div></section>')
 
 
@@ -173,8 +173,8 @@ def main(ed: str) -> None:
                    f"<td class=n>{pct(float(r['1日3食の割合']))}</td><td class=n>{r['件数（10件単位）']}</td></tr>" for r in rj)
     tool_data = json.dumps([{"r": r["region"], "j": r["job"], "q1": int(r["時給_下位25%"]), "md": int(r["時給_中央値"]),
                              "q3": int(r["時給_上位25%"]), "n": int(r["件数（10件単位）"])} for r in rj], ensure_ascii=False)
-    tool = ('<section><h2>時給の目安を調べる</h2><p class="lead">地方と職種を選び、時給を入れると、同じ地方・職種の求人の中でどのあたりかを表示します。'
-            '求人の条件を決めるとき、応募先を比べるときの目安にしてください。</p><div class="panel"><div class="tool">'
+    tool = ('<section><h2>時給の目安を調べる</h2><p class="lead">地方と職種を選択して時給を入力すると、同一条件の求人相場における相対的な水準（上位/下位）を瞬時に判定します。'
+            '募集条件の客観評価や、応募前の比較検討にご活用ください。</p><div class="panel"><div class="tool">'
             '<label>地方<select id="tr"></select></label><label>職種<select id="tj"></select></label>'
             '<label>時給（円）<input id="tw" type="number" inputmode="numeric" min="900" max="3000" step="10" placeholder="例 1300"></label></div>'
             f'<div class="result" id="tres"></div></div></section><script>const T={tool_data};{TOOL_JS}</script>')
@@ -183,23 +183,23 @@ def main(ed: str) -> None:
 
     rep = f"""<section class="hero"><div class="wrap"><p class="eyebrow">MONTHLY REPORT　{label}版</p>
 <h1>リゾートバイトの時給と条件　{label}</h1>
-<p>掲載中の求人{s['求人件数']:,}件（派遣会社{s['派遣会社数']}社）をもとに、地域・職種ごとの時給の水準と、寮・食事などの条件が時給とどう関係しているかをまとめました。</p></div></section>
+<p>掲載中の求人{s['求人件数']:,}件（派遣会社{s['派遣会社数']}社）をもとに、地域・職種ごとの時給水準と、寮・食事などの待遇条件が時給に与える影響を客観集計した月次レポートです。</p></div></section>
 <main class="wrap">
 <section><h2>全体の水準</h2><div class="kpis">{k4}</div></section>
 <section><h2>地方別の時給</h2><p class="lead">帯は真ん中の半分（下位25%〜上位25%）、縦線は中央値です。</p>{bars(wavg_rows(by_r))}</section>
 <section><h2>職種別の時給</h2>{bars(wavg_rows(by_j))}</section>
 <section><h2>条件と時給の関係</h2>
-<p class="lead">同じ職種・都道府県・開始月・派遣会社の求人どうしで比べたとき、各条件がある求人の時給が何%高い（低い）か。点は推定値、線は95%信頼区間です（重回帰分析、{h['n']:,}件）。</p>
+<p class="lead">同一の職種・都道府県・開始月・派遣会社の求人間において、各条件の有無が提示時給に与える影響率（%）を推計しました。点は推定値、横線は95%信頼区間を示します（ヘドニック回帰分析、サンプル数：{h['n']:,}件）。</p>
 {coef(h['結果'])}
-<p>食事や寮費の負担が軽い求人ほど、時給はわずかに低い傾向がありました。時給だけでなく、寮や食事を含めた条件の全体で働く人を集めている様子がうかがえます。</p>
-<p class="sm">条件と時給の関係を示すもので、条件を変えれば時給がその分変わるという因果関係ではありません。1か月分のデータによる結果です。</p></section>
+<p>食事補助や寮費無料など生活費の負担が軽い求人ほど、提示時給はわずかに低めになる相関が見られます。時給単体だけでなく、寮環境や食事条件を含めた実質処遇全体で採用競争力を設計している傾向が示唆されます。</p>
+<p class="sm">※本分析は条件と提示時給の相関関係を示すものであり、単一条件の変更が直ちに時給変動をもたらす因果関係を証明するものではありません。単月データに基づく推計値です。</p></section>
 {tool}
 <section><h2>地方×職種の時給</h2>
-<p class="sm">件数が少ない枠、特定の1社や施設に偏る枠は出していません（<a href="../methods.html">調べ方</a>）。時給は円、件数は10件単位。</p>
+<p class="sm">特定会社・施設の偏りを防ぐため、一定基準を満たした枠のみ掲載しています（<a href="../methods.html">調べ方</a>）。時給は円、件数は10件単位。</p>
 <div class="scroll"><table><tr><th>地方</th><th>職種</th><th>中央値</th><th>真ん中の半分</th><th>寮が個室</th><th>3食つき</th><th>件数</th></tr>{rows}</table></div></section>
 <section><h2>データのダウンロード</h2>
 <div class="dl"><a href="../data/{ed}_region_job.csv">地方×職種 CSV</a><a href="../data/{ed}_prefecture_job.csv">都道府県×職種 CSV</a><a href="../data/{ed}_region_startmonth.csv">地方×開始月 CSV</a><a href="../data/{ed}_summary.json">分析結果 JSON</a></div>
-<p class="sm">CC BY 4.0。出典「{TITLE}（{AUTHOR}）」とリンクを書けば、自由に使えます。</p></section>
+<p class="sm">CC BY 4.0。出典「{TITLE}（{AUTHOR}）」とリンクを明記すれば、学術・実務問わず無償でご利用いただけます。</p></section>
 {CTA}
 </main>"""
     (DOCS / "reports").mkdir(parents=True, exist_ok=True)
@@ -210,17 +210,17 @@ def main(ed: str) -> None:
                  f'<div><span class="tag">月次レポート</span><div class="t">リゾートバイトの時給と条件　{int(p.stem[:4])}年{int(p.stem[5:7])}月</div></div></a>' for p in reps)
     k3 = kpi("対象の求人", f"{s['求人件数']:,}", "件") + kpi("時給の中央値", f"{s['時給の中央値']:,}", "円") + kpi("寮が完全個室の求人", str(round(s["寮が個室の割合"] * 100)), "%")
     top = f"""<section class="hero"><div class="wrap"><p class="eyebrow">RESORT WORK LABOR CONDITIONS REPORT</p>
-<h1>リゾートで働く人と、受け入れる施設のための<br>労働条件の基礎データ</h1>
-<p>リゾート地の短期・住み込みの仕事について、時給や寮・食事の条件を地域・職種ごとに集計し、毎月公開しています。働く人が条件を比べるとき、施設や派遣会社が求人の条件を考えるとき、自治体が観光地の人手を考えるときの材料として、無料で使えるようにすることが目的です。</p></div></section>
+<h1>リゾートワークの労働条件・賃金相場データ</h1>
+<p>全国のリゾートバイト（住み込み・リゾート勤務求人）の募集条件を地域・職種ごとに毎月集計し、時給水準や寮・食事の条件を公開しています。求職者の条件比較、宿泊施設や派遣会社の募集設計、観光地の人手不足対策の基礎資料として、どなたでも無償で閲覧・ダウンロードいただけます。</p></div></section>
 <main class="wrap">
 <section><h2 id="reports">レポート</h2><div class="reports">{rl}</div></section>
 <section><h2>最新の水準（{label}）</h2><div class="kpis">{k3}</div></section>
 <section><h2 id="data">データ</h2>
-<p class="lead">集計した表はCSVで自由にダウンロードできます（CC BY 4.0）。個別の求人・会社名・施設名は含みません。</p>
+<p class="lead">集計データはCSV形式で無償公開しています（CC BY 4.0）。個別の求人情報・会社名・施設名は含みません。</p>
 <div class="dl"><a href="data/{ed}_region_job.csv">地方×職種</a><a href="data/{ed}_prefecture_job.csv">都道府県×職種</a><a href="data/{ed}_region_startmonth.csv">地方×開始月</a><a href="data/{ed}_summary.json">分析結果 JSON</a></div></section>
 <section><h2>このレポートについて</h2>
-<p class="lead">元のデータは、派遣会社各社が公開している求人ページです。利用の条件を確認できた{s['派遣会社数']}社の、掲載中で時給が書かれている求人だけを使っています。集計の手順とコードは公開しており、同じ計算を誰でも確かめられます。</p>
-<p><a href="methods.html">調べ方と、公開の条件</a>　／　<a href="{REPO}">集計のコード（GitHub）</a></p></section>
+<p class="lead">派遣会社各社が自社サイトで公開している求人情報をもとに、規約上の利用条件を確認済みの{s['派遣会社数']}社・現在募集中の求人のみを対象としています。集計の手順および算出コードはすべてGitHub上で公開しており、どなたでも検証可能です。</p>
+<p><a href="methods.html">調べ方と、公開の条件</a>　／　<a href="{REPO}">集計コード（GitHub）</a></p></section>
 {CTA}
 </main>"""
     (DOCS / "index.html").write_text(page(TITLE, top), encoding="utf-8")
@@ -229,17 +229,17 @@ def main(ed: str) -> None:
     meth = f"""<section class="hero"><div class="wrap"><h1>調べ方と、公開の条件</h1></div></section>
 <main class="wrap">
 <h2>元のデータ</h2>
-<p>リゾートバイトの派遣会社が自社サイトで公開している求人ページを、毎日1回読み取っています。このレポートに使うのは、利用の条件を確認できた派遣会社{s['派遣会社数']}社の、掲載中で時給が書かれている求人です。利用規約で集計や商業目的の利用を制限している会社の求人は使っていません。</p>
-<h2>そろえ方</h2>
-<p>職種名は会社ごとに違うため、「フロント」「調理」「レストラン・ホール」などの共通の区分にそろえています。時給が900円未満・3,000円を超える値は、読み取りの誤りとして除いています。開始月は、求人に書かれた入社可能な月のうち最も早い月です。</p>
-<h2>公開の条件（特定を防ぐため）</h2>
-<p>集計の枠（例：関東×フロント）ごとに、次の条件をすべて満たすときだけ数字を出します。満たさない枠は「データ不足」として出しません。</p>
-<ul><li>求人が{c['min_jobs']}件以上</li><li>{c['min_agencies']}社以上の求人を含む</li><li>1社の求人が全体の{int(c['max_agency_share']*100)}%以下</li><li>施設が{c['min_workplaces']}か所以上</li></ul>
-<p>時給は10円単位、件数は10件単位に丸め、中央値と上位・下位25%だけを出します。最高値・最低値は出しません。</p>
+<p>リゾートバイト派遣各社が自社サイトで一般公開している求人情報を、日次で収集しています。本レポートでは、利用規約上の条件を確認できた派遣会社{s['派遣会社数']}社について、時給が明記されている募集中の求人のみを集計対象としています。二次利用や集計を制限している会社のデータは除外しています。</p>
+<h2>職種と数値の標準化（データ前処理）</h2>
+<p>職種名は派遣会社ごとに表記が異なるため、「フロント」「調理」「レストラン・ホール」等の共通区分に正規化しています。また、入力誤りや極端な外れ値（時給900円未満、3,000円超）は除外しています。就業開始月は、求人票に記載された入社可能月のうち最短の月を採用しています。</p>
+<h2>集計・公開の基準（特定防止措置）</h2>
+<p>集計区分（例：関東 × フロント）ごとに、以下の基準をすべて満たす場合のみ統計値を算出・公開します。基準を満たさない枠は、特定の会社や施設が推測されるのを防ぐため「データ不足」として秘匿処理を行っています。</p>
+<ul><li>求人件数が{c['min_jobs']}件以上</li><li>{c['min_agencies']}社以上の求人を含む</li><li>1社の求人割合が全体の{int(c['max_agency_share']*100)}%以下</li><li>就業先施設が{c['min_workplaces']}か所以上</li></ul>
+<p>時給は10円単位、件数は10件単位に丸め、中央値および四分位数（上位・下位25%）のみを公表します。最高値・最低値は非公開としています。</p>
 <h2>条件と時給の関係（重回帰分析）</h2>
-<p>時給の対数を、寮の種類・寮費0円・1日3食・寮のWi-Fi・交通費の支給・未経験可で説明し、職種・都道府県・開始月・派遣会社の違いを固定効果として取り除いています（ヘドニック分析）。標準誤差は不均一分散に頑健なもの（HC1）です。派遣会社ごとの推定値は公開していません。</p>
-<h2>限界</h2>
-<ul><li>求人に書かれた時給で、実際に支払われた額ではありません。</li><li>今月の版は1か月分のデータで、季節による違いは含みません。</li><li>求人が掲載から消えたことは、採用が決まったことと同じではありません。埋まるまでの日数の分析は、会社ごとの違いを取り除く方法を確かめてから出します。</li></ul>
+<p>時給の対数値を被説明変数とし、寮の形態（完全個室等）、寮費無料、1日3食支給、Wi-Fi完備、交通費支給、未経験歓迎などを説明変数、職種・都道府県・開始月・派遣会社の固定効果をコントロールしたヘドニック回帰分析（OLS・不均一分散頑健標準誤差HC1）を実施しています。各社の個別推定値は非公開としています。</p>
+<h2>限界・留意点</h2>
+<ul><li>求人票に記載された提示時給であり、残業代や手当を含めた実支給額ではありません。</li><li>本レポートは単月データに基づく断面分析であり、季節変動や通年の需給変動は考慮していません。</li><li>掲載終了は採用決定のほか、募集枠の一時停止や掲載期限切れを含むため、成約日数そのものではありません。掲載期間の分析は、会社ごとの運用差を調整するモデルを検証のうえで順次公開予定です。</li></ul>
 </main>"""
     (DOCS / "methods.html").write_text(page(f"調べ方 | {TITLE}", meth), encoding="utf-8")
     (DOCS / ".nojekyll").write_text("", encoding="utf-8")
