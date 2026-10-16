@@ -77,7 +77,7 @@ def page(title: str, body: str, depth: int = 0) -> str:
 {body}
 <footer><div class="wrap">
 <p>作成：{AUTHOR}　連絡先：zax-official@fumiproject.dev</p>
-<p>集計データ・レポートは <a href="https://creativecommons.org/licenses/by/4.0/deed.ja">CC BY 4.0</a> で公開しています。使うときは「出典：{TITLE}（{AUTHOR}）」とこのサイトへのリンクを書いてください。集計のコードは <a href="{REPO}">GitHub</a> で公開しています（MITライセンス）。</p>
+<p>集計データ・レポートは <a href="https://creativecommons.org/licenses/by/4.0/deed.ja">CC BY 4.0</a> で公開しています。ご利用の際は、出典として「{TITLE}（{AUTHOR}）」とこのサイトへのリンクを記載していただけますと幸いです。集計のコードは <a href="{REPO}">GitHub</a> で公開しています（MITライセンス）。</p>
 <p>元の求人は、各派遣会社が公開している求人ページです。個別の求人・会社名・施設名は掲載していません。</p>
 </div></footer></body></html>"""
 
@@ -202,7 +202,7 @@ def main(ed: str) -> None:
 <div class="scroll"><table><tr><th>地方</th><th>職種</th><th>中央値</th><th>真ん中の半分</th><th>寮が個室</th><th>3食つき</th><th>件数</th></tr>{rows}</table></div></section>
 <section><h2>データのダウンロード</h2>
 <div class="dl"><a href="{BASE}data/{ed}_region_job.csv">地方×職種 CSV</a><a href="{BASE}data/{ed}_prefecture_job.csv">都道府県×職種 CSV</a><a href="{BASE}data/{ed}_region_startmonth.csv">地方×開始月 CSV</a><a href="{BASE}data/{ed}_summary.json">分析結果 JSON</a></div>
-<p class="sm">CC BY 4.0。出典「{TITLE}（{AUTHOR}）」とリンクを明記すれば、学術・実務問わず無償でご利用いただけます。</p></section>
+<p class="sm">CC BY 4.0 で公開しています。出典「{TITLE}（{AUTHOR}）」とリンクを記載していただければ、研究・実務を問わずご利用いただけます。</p></section>
 {CTA}
 </main>"""
     (DOCS / "reports").mkdir(parents=True, exist_ok=True)
@@ -236,9 +236,9 @@ def main(ed: str) -> None:
 <h2>職種と数値の標準化（データ前処理）</h2>
 <p>職種名は派遣会社ごとに表記が異なるため、「フロント」「調理」「レストラン・ホール」等の共通区分に正規化しています。また、入力誤りや極端な外れ値（時給900円未満、3,000円超）は除外しています。就業開始月は、求人票に記載された入社可能月のうち最短の月を採用しています。</p>
 <h2>集計・公開の基準（特定防止措置）</h2>
-<p>集計区分（例：関東 × フロント）ごとに、以下の基準をすべて満たす場合のみ統計値を算出・公開します。基準を満たさない枠は、特定の会社や施設が推測されるのを防ぐため「データ不足」として秘匿処理を行っています。</p>
+<p>集計区分（例：関東 × フロント）ごとに、以下の基準をすべて満たす場合にのみ数値を掲載しています。特定の会社や施設が推測されることのないよう、基準を満たさない枠は「データ不足」とし、数値を掲載していません。</p>
 <ul><li>求人件数が{c['min_jobs']}件以上</li><li>{c['min_agencies']}社以上の求人を含む</li><li>1社の求人割合が全体の{int(c['max_agency_share']*100)}%以下</li><li>就業先施設が{c['min_workplaces']}か所以上</li></ul>
-<p>時給は10円単位、件数は10件単位に丸め、中央値および四分位数（上位・下位25%）のみを公表します。最高値・最低値は非公開としています。</p>
+<p>時給は10円単位、件数は10件単位に丸め、中央値と四分位数（上位・下位25%）のみを掲載しています。最高値・最低値は掲載していません。</p>
 <h2>条件と時給の関係（重回帰分析）</h2>
 <p>時給の対数値を被説明変数とし、寮の形態（完全個室等）、寮費無料、1日3食支給、Wi-Fi完備、交通費支給、未経験歓迎などを説明変数、職種・都道府県・開始月・派遣会社の固定効果をコントロールしたヘドニック回帰分析（OLS・不均一分散頑健標準誤差HC1）を実施しています。各社の個別推定値は非公開としています。</p>
 <h2>限界・留意点</h2>
