@@ -69,7 +69,10 @@ def load(path: pathlib.Path) -> pd.DataFrame:
         dorm = x.get("dorm_type") or "不明"
         rows.append({
             "agency": ag.split("（")[0],
-            "workplace": x.get("workplace_key") or f"_{x.get('id')}",
+            # 住所を出さない会社（グッドマン・ヒューマニック等）は施設を見分けられない。
+            # 以前は1求人＝1施設と数えており、施設数と「5施設以上」の条件が甘くなっていた。
+            # 同じ会社・同じ市町村（エリア）の求人は同じ施設かもしれないとみなし、少なめに数える。
+            "workplace": x.get("workplace_key") or f"~{ag}|{x.get('prefecture')}|{x.get('city')}",
             "region": x.get("region") or "不明",
             "prefecture": x.get("prefecture") or "不明",
             "job": job_group(x.get("job_category")),
