@@ -61,16 +61,19 @@ footer{border-top:1px solid var(--line);margin-top:72px;padding:28px 0 48px;font
 """
 
 
+BASE = "/resort/research/"
+
+
 def page(title: str, body: str, depth: int = 0) -> str:
-    up = "../" * depth
+    up = BASE  # 相対リンクだと末尾の / の有無で行き先がずれるため、絶対パスにする
     return f"""<!doctype html>
 <html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{html.escape(title)}</title>
 <meta name="description" content="リゾート地の短期・住み込みの仕事（リゾートバイト）の時給と寮・食事などの条件を、地域・職種ごとに集計した月次レポート。集計データはCC BY 4.0で自由に使えます。">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
 <style>{CSS}</style></head><body>
-<header><div class="wrap top"><a class="brand" href="{up}index.html"><b>{TITLE}</b><span>RESORT WORK LABOR CONDITIONS REPORT</span></a>
-<nav><a href="{up}index.html#reports">レポート</a><a href="{up}index.html#data">データ</a><a href="{up}methods.html">調べ方</a></nav></div></header>
+<header><div class="wrap top"><a class="brand" href="{up}"><b>{TITLE}</b><span>RESORT WORK LABOR CONDITIONS REPORT</span></a>
+<nav><a href="{up}#reports">レポート</a><a href="{up}#data">データ</a><a href="{up}methods">調べ方</a><a href="/resort/">リゾートソート</a></nav></div></header>
 {body}
 <footer><div class="wrap">
 <p>作成：{AUTHOR}　連絡先：zax-official@fumiproject.dev</p>
@@ -195,10 +198,10 @@ def main(ed: str) -> None:
 <p class="sm">※本分析は条件と提示時給の相関関係を示すものであり、単一条件の変更が直ちに時給変動をもたらす因果関係を証明するものではありません。単月データに基づく推計値です。</p></section>
 {tool}
 <section><h2>地方×職種の時給</h2>
-<p class="sm">特定会社・施設の偏りを防ぐため、一定基準を満たした枠のみ掲載しています（<a href="../methods.html">調べ方</a>）。時給は円、件数は10件単位。</p>
+<p class="sm">特定会社・施設の偏りを防ぐため、一定基準を満たした枠のみ掲載しています（<a href="{BASE}methods">調べ方</a>）。時給は円、件数は10件単位。</p>
 <div class="scroll"><table><tr><th>地方</th><th>職種</th><th>中央値</th><th>真ん中の半分</th><th>寮が個室</th><th>3食つき</th><th>件数</th></tr>{rows}</table></div></section>
 <section><h2>データのダウンロード</h2>
-<div class="dl"><a href="../data/{ed}_region_job.csv">地方×職種 CSV</a><a href="../data/{ed}_prefecture_job.csv">都道府県×職種 CSV</a><a href="../data/{ed}_region_startmonth.csv">地方×開始月 CSV</a><a href="../data/{ed}_summary.json">分析結果 JSON</a></div>
+<div class="dl"><a href="{BASE}data/{ed}_region_job.csv">地方×職種 CSV</a><a href="{BASE}data/{ed}_prefecture_job.csv">都道府県×職種 CSV</a><a href="{BASE}data/{ed}_region_startmonth.csv">地方×開始月 CSV</a><a href="{BASE}data/{ed}_summary.json">分析結果 JSON</a></div>
 <p class="sm">CC BY 4.0。出典「{TITLE}（{AUTHOR}）」とリンクを明記すれば、学術・実務問わず無償でご利用いただけます。</p></section>
 {CTA}
 </main>"""
@@ -206,7 +209,7 @@ def main(ed: str) -> None:
     (DOCS / "reports" / f"{ed}.html").write_text(page(f"{label}版 | {TITLE}", rep, 1), encoding="utf-8")
 
     reps = sorted((DOCS / "reports").glob("20*.html"), reverse=True)
-    rl = "".join(f'<a class="report" href="reports/{p.name}"><div class="d">{p.stem[:4]}.{p.stem[5:7]}</div>'
+    rl = "".join(f'<a class="report" href="{BASE}reports/{p.stem}"><div class="d">{p.stem[:4]}.{p.stem[5:7]}</div>'
                  f'<div><span class="tag">月次レポート</span><div class="t">リゾートバイトの時給と条件　{int(p.stem[:4])}年{int(p.stem[5:7])}月</div></div></a>' for p in reps)
     k3 = kpi("対象の求人", f"{s['求人件数']:,}", "件") + kpi("時給の中央値", f"{s['時給の中央値']:,}", "円") + kpi("寮が完全個室の求人", str(round(s["寮が個室の割合"] * 100)), "%")
     top = f"""<section class="hero"><div class="wrap"><p class="eyebrow">RESORT WORK LABOR CONDITIONS REPORT</p>
@@ -217,10 +220,10 @@ def main(ed: str) -> None:
 <section><h2>最新の水準（{label}）</h2><div class="kpis">{k3}</div></section>
 <section><h2 id="data">データ</h2>
 <p class="lead">集計データはCSV形式で無償公開しています（CC BY 4.0）。個別の求人情報・会社名・施設名は含みません。</p>
-<div class="dl"><a href="data/{ed}_region_job.csv">地方×職種</a><a href="data/{ed}_prefecture_job.csv">都道府県×職種</a><a href="data/{ed}_region_startmonth.csv">地方×開始月</a><a href="data/{ed}_summary.json">分析結果 JSON</a></div></section>
+<div class="dl"><a href="{BASE}data/{ed}_region_job.csv">地方×職種</a><a href="{BASE}data/{ed}_prefecture_job.csv">都道府県×職種</a><a href="{BASE}data/{ed}_region_startmonth.csv">地方×開始月</a><a href="{BASE}data/{ed}_summary.json">分析結果 JSON</a></div></section>
 <section><h2>このレポートについて</h2>
 <p class="lead">派遣会社各社が自社サイトで公開している求人情報をもとに、規約上の利用条件を確認済みの{s['派遣会社数']}社・現在募集中の求人のみを対象としています。集計の手順および算出コードはすべてGitHub上で公開しており、どなたでも検証可能です。</p>
-<p><a href="methods.html">調べ方と、公開の条件</a>　／　<a href="{REPO}">集計コード（GitHub）</a></p></section>
+<p><a href="{BASE}methods">調べ方と、公開の条件</a>　／　<a href="{REPO}">集計コード（GitHub）</a></p></section>
 {CTA}
 </main>"""
     (DOCS / "index.html").write_text(page(TITLE, top), encoding="utf-8")
