@@ -56,12 +56,20 @@ def load(path: pathlib.Path) -> pd.DataFrame:
     j = json.loads(path.read_text(encoding="utf-8"))
     j = j if isinstance(j, list) else j.get("jobs", [])
     rows = []
+    seen_groups: set = set()
     for x in j:
         ag = x.get("agency") or ""
         if not any(a in ag for a in ALLOWED):
             continue
         if x.get("is_closed") or x.get("wage_type") != "時給" or not x.get("wage_min"):
             continue
+        # 同じ施設・同じ仕事・同じ時給を、開始月ごとに別の求人として出す会社がある（例：10月開始・11月開始・12月開始）。
+        # 入力に posting_group（tools/jobs_latest.py が付ける）があれば、1つにまとめて数える
+        g = x.get("posting_group")
+        if g:
+            if g in seen_groups:
+                continue
+            seen_groups.add(g)
         w = float(x["wage_min"])
         if not 900 <= w <= 3000:  # 時給として読めない値は除く
             continue
